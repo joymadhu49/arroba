@@ -1,0 +1,458 @@
+@import "tailwindcss";
+
+/* next-themes toggles `class="dark"` on <html>; Tailwind v4's `dark:` variant
+   defaults to prefers-color-scheme, so re-bind it to the class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/* Semantic design tokens — light (:root) and dark (.dark)             */
+/* ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  --background: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #efefec;
+  --foreground: #1a1a21;
+  --muted: #50505c;
+  --faint: #7d7d88;
+  --line: rgba(26, 26, 33, 0.1);
+  --line-strong: rgba(26, 26, 33, 0.2);
+  --accent: #5b5bd6;
+  --accent-soft: rgba(91, 91, 214, 0.09);
+  --on-accent: #ffffff;
+  --success: #177a4c;
+  --success-soft: rgba(23, 122, 76, 0.1);
+  --warning: #8a6100;
+  --warning-soft: rgba(138, 97, 0, 0.1);
+  --danger: #c0392f;
+  --danger-soft: rgba(192, 57, 47, 0.09);
+  --info: #0e7490;
+  --info-soft: rgba(14, 116, 144, 0.09);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #0a0a0f;
+  --surface: #10101a;
+  --surface-2: #181826;
+  --foreground: #f2f0e9;
+  --muted: #c9c5b8;
+  --faint: #908c80;
+  --line: rgba(242, 240, 233, 0.1);
+  --line-strong: rgba(242, 240, 233, 0.22);
+  --accent: #a190f5;
+  --accent-soft: rgba(161, 144, 245, 0.12);
+  --on-accent: #11111a;
+  --success: #3ecf8e;
+  --success-soft: rgba(62, 207, 142, 0.1);
+  --warning: #e7b549;
+  --warning-soft: rgba(231, 181, 73, 0.1);
+  --danger: #ef6a5a;
+  --danger-soft: rgba(239, 106, 90, 0.09);
+  --info: #5bc8dd;
+  --info-soft: rgba(91, 200, 221, 0.1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tailwind theme — semantic utilities generated from the tokens       */
+/* ------------------------------------------------------------------ */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+}
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                 */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Film grain overlay                                                  */
+/* ------------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .grain {
+  opacity: 0.05;
+}
+
+/* ------------------------------------------------------------------ */
+/* Aurora / gradient-mesh backdrops                                    */
+/* ------------------------------------------------------------------ */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Light: barely-there tinted washes on paper */
+.aurora::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(
+      38% 32% at 22% 18%,
+      color-mix(in srgb, var(--accent) 9%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 28% at 78% 12%,
+      color-mix(in srgb, var(--info) 7%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      26% 24% at 12% 82%,
+      color-mix(in srgb, var(--info) 6%, transparent) 0%,
+      transparent 70%
+    );
+  filter: blur(48px);
+  animation: aurora-drift 26s ease-in-out infinite alternate;
+}
+
+/* Dark: original gallery aurora */
+.dark .aurora::before {
+  background:
+    radial-gradient(
+      38% 32% at 22% 18%,
+      rgba(124, 58, 237, 0.32) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 28% at 78% 12%,
+      rgba(34, 211, 238, 0.16) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      34% 30% at 64% 76%,
+      rgba(245, 158, 11, 0.1) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      26% 24% at 12% 82%,
+      rgba(103, 232, 249, 0.1) 0%,
+      transparent 70%
+    );
+}
+
+.aurora--quiet::before {
+  opacity: 0.6;
+  animation-duration: 38s;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(1.5%, 2%, 0) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Glassmorphism cards & hairlines                                     */
+/* ------------------------------------------------------------------ */
+/* Light: solid paper surface, hairline border, soft shadow */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px -16px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark: translucent gallery glass */
+.dark .glass {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    rgba(255, 255, 255, 0.015) 60%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 24px 60px -36px rgba(0, 0, 0, 0.8);
+}
+
+.glass-hover {
+  transition:
+    border-color 280ms ease,
+    transform 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.glass-hover:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 16px 40px -24px rgba(0, 0, 0, 0.14);
+}
+
+.dark .glass-hover:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 32px 70px -36px rgba(0, 0, 0, 0.85),
+    0 0 50px -24px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.hairline-b {
+  border-bottom: 1px solid var(--line);
+}
+
+.hairline-t {
+  border-top: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography helpers                                                  */
+/* ------------------------------------------------------------------ */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* ------------------------------------------------------------------ */
+/* Art-deco line motif                                                 */
+/* ------------------------------------------------------------------ */
+.deco-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: color-mix(in srgb, var(--foreground) 25%, transparent);
+}
+
+.deco-rule::before,
+.deco-rule::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Focus & interaction                                                 */
+/* ------------------------------------------------------------------ */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* In @layer components so Tailwind utilities (e.g. pl-8 on inputs with a
+   decorative @/$ prefix) can override these — unlayered rules always beat
+   layered utilities regardless of class order or specificity. */
+@layer components {
+  input.field,
+  textarea.field {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--foreground);
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .dark input.field,
+  .dark textarea.field {
+    background: color-mix(in srgb, var(--background) 60%, transparent);
+  }
+
+  input.field::placeholder,
+  textarea.field::placeholder {
+    color: color-mix(in srgb, var(--faint) 70%, transparent);
+  }
+
+  input.field:hover,
+  textarea.field:hover {
+    border-color: var(--line-strong);
+  }
+
+  input.field:focus,
+  textarea.field:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  input.field:disabled,
+  textarea.field:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Pay card — collectible exhibit piece                                 */
+/* ------------------------------------------------------------------ */
+/* Light: premium paper card with faint tinted radials */
+.paycard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(
+      120% 90% at 85% -10%,
+      color-mix(in srgb, var(--accent) 7%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      80% 70% at 8% 110%,
+      color-mix(in srgb, var(--info) 6%, transparent) 0%,
+      transparent 60%
+    ),
+    linear-gradient(150deg, #ffffff 0%, #f0f0ed 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 12px 32px -24px rgba(0, 0, 0, 0.12);
+}
+
+/* Dark: original collectible look */
+.dark .paycard {
+  border-color: color-mix(in srgb, var(--foreground) 14%, transparent);
+  background:
+    radial-gradient(
+      120% 90% at 85% -10%,
+      rgba(124, 58, 237, 0.3) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      80% 70% at 8% 110%,
+      rgba(34, 211, 238, 0.14) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 40% at 50% 105%,
+      rgba(245, 158, 11, 0.07) 0%,
+      transparent 70%
+    ),
+    linear-gradient(150deg, #15151f 0%, #0a0a0f 65%);
+  box-shadow: none;
+}
+
+/* Inner deco frame */
+.paycard::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.dark .paycard::before {
+  border-color: color-mix(in srgb, var(--foreground) 9%, transparent);
+}
+
+/* Diagonal sheen, like card stock catching gallery light */
+.paycard::after {
+  content: "";
+  position: absolute;
+  top: -70%;
+  left: -25%;
+  width: 55%;
+  height: 240%;
+  transform: rotate(18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--foreground) 4%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  transition: translate 600ms ease;
+}
+
+.dark .paycard::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--foreground) 5%, transparent),
+    transparent
+  );
+}
+
+.paycard:hover::after {
+  translate: 40% 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scrollbar (subtle, follows theme)                                   */
+/* ------------------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 15%, transparent)
+    transparent;
+}
