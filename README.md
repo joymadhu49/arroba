@@ -1,5 +1,7 @@
 # Arroba
 
+**Live:** [arroba.vercel.app](https://arroba.vercel.app) · auto-deployed from `main` via Vercel
+
 Pay anyone by their X (Twitter) handle on Circle's **Arc testnet** — where the
 native gas token is USDC. No Twitter API keys anywhere: account ownership is
 proven with a single public tweet, validated through Twitter's free, keyless
