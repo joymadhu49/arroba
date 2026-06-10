@@ -29,8 +29,8 @@ const modal = (g.__hpAppKit ??= createAppKit({
     name: "Arroba",
     description:
       "Pay anyone on X by their handle — in USDC, on Circle's Arc testnet.",
-    url: "https://arroba.xyz",
-    icons: ["https://arroba.xyz/icon.png"],
+    url: "https://arroba.vercel.app",
+    icons: ["https://arroba.vercel.app/icon.png"],
   },
   themeVariables: {
     "--w3m-border-radius-master": "2px",

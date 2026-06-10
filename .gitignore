@@ -14,6 +14,9 @@ contracts/cache/
 contracts/out/
 contracts/broadcast/
 
+# Vercel
+.vercel/
+
 # Misc
 .DS_Store
 *.log
